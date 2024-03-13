@@ -1,0 +1,92 @@
+{
+    "log": {
+        "loglevel": "warning"
+    },
+    "routing": {
+        "rules": [
+            {
+                "type": "field",
+                "outboundTag": "block",
+                "domain": [
+                    "geosite:category-ads-all"
+                ]
+            },
+            {
+                "type": "field",
+                "outboundTag": "direct",
+                "domain": [
+                    "geosite:tld-cn",
+                    "geosite:icloud",
+                    "geosite:category-games@cn",
+                    "geosite:cn",
+                    "geosite:private"
+                ]
+            },
+            {
+                "type": "field",
+                "outboundTag": "direct",
+                "ip": [
+                    "geoip:cn",
+                    "geoip:private"
+                ]
+            },
+            {
+                "type": "field",
+                "outboundTag": "proxy",
+                "domain": [
+                    "geosite:geolocation-!cn",
+                    "full:www.icloud.com",
+                    "domain:icloud-content.com",
+                    "geosite:google"
+                ]
+            }
+        ]
+    },
+    "inbounds": [
+        {
+            "listen": "127.0.0.1",
+            "port": 10808,
+            "protocol": "socks"
+        },
+        {
+            "listen": "127.0.0.1",
+            "port": 10809,
+            "protocol": "http"
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "vless",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "185.148.13.236",
+                        "port": 443,
+                        "users": [
+                            {
+                                "id": "heisenberg",
+                                "encryption": "none",
+                                "flow": "xtls-rprx-vision"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "security": "reality",
+                "realitySettings": {
+                    "fingerprint": "chrome",
+                    "serverName": "www.lovelive-anime.jp",
+                    "publicKey": "sbfXNqEarzFSmDKBR3pewl2k1tBGaWiVQXogRfPqMg8",
+                    "shortId": "7595346f373cf8a2"
+                }
+            },
+            "tag": "proxy"
+        },
+        {
+            "protocol": "freedom",
+            "tag": "direct"
+        }
+    ]
+}
